@@ -6,7 +6,8 @@ import {
   FormContainer,
   Inputs,
   ButtonWrapper,
-  Input
+  Input,
+  Title
 } from './Form.styles';
 import { Button } from '../../common/globalStyles';
 import { IExpense } from '../../stores/expensesStore';
@@ -33,14 +34,14 @@ class Form extends React.Component<IFormProps> {
         <FormContainer>
           <Inputs>
             <FieldWrapper>
-              <div>Title of transaction</div>
+              <Title>Title of transaction</Title>
               <Input
                 value={currentExpense.title}
                 onChange={e => addFieldContent(e.target.value, 'title')}
               />
             </FieldWrapper>
             <FieldWrapper>
-              <div>Amount (in PLN)</div>
+              <Title>Amount (in PLN)</Title>
               <Input
                 value={currentExpense.amount}
                 onChange={e => addFieldContent(e.target.value, 'amount')}

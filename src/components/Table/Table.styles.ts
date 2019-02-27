@@ -32,22 +32,6 @@ export const TableCell = styled.td`
   border: 1px solid ${colors.carbonGray};
 `;
 
-export const Header = styled.thead`
-  &:nth-child(1) {
-    width: 45%;
-  }
-
-  &th:nth-child(2) {
-    width: 20%;
-  }
-  &th:nth-child(3) {
-    width: 25%;
-  }
-  &th:nth-child(4) {
-    width: 15%;
-  }
-`;
-
 export const Button = styled.button`
   border: 1px solid ${colors.carbonGray};
   border-radius: 4px;

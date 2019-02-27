@@ -1,5 +1,6 @@
+import { carbonGray } from './../../common/colors';
 import styled from 'styled-components';
-import * as styles from '../../common/colors';
+import * as colors from '../../common/colors';
 
 export const FieldWrapper = styled.div`
   padding-top: 20px;
@@ -22,6 +23,10 @@ export const Inputs = styled.div`
   width: 70%;
 `;
 
+export const Title = styled.div`
+  font-weight: 700;
+`;
+
 export const Input = styled.input`
   width: 60%;
   margin-right: 20px;
@@ -29,21 +34,7 @@ export const Input = styled.input`
 `;
 
 export const HeaderRow = styled.tr`
-  background-color: ${styles.carbonGray};
-  & > th {
-    &:nth-child(1) {
-      width: 40%;
-    }
-    &th:nth-child(2) {
-      width: 25%;
-    }
-    &th:nth-child(3) {
-      width: 25%;
-    }
-    &th:nth-child(4) {
-      width: 10%;
-    }
-  }
+  background-color: ${colors.carbonGray};
 `;
 
 export const HeaderCell = styled.th`
@@ -53,41 +44,3 @@ export const HeaderCell = styled.th`
 export const TableCell = styled.td`
   padding: 10px;
 `;
-
-export const Header = styled.thead`
-  &:nth-child(1) {
-    width: 45%;
-    background-color: 'red';
-  }
-
-  &th:nth-child(2) {
-    width: 20%;
-  }
-  &th:nth-child(3) {
-    width: 25%;
-  }
-  &th:nth-child(4) {
-    width: 15%;
-  }
-`;
-
-// export const LeftButton = styled(GlobalButton)`
-//   border-right: none;
-//   width: 100%;
-//   border-radius: 4px 0 0 4px;
-//   border-right: none;
-//   max-width: 115px;
-//   min-width: 100px;
-//   padding: 12px;
-//   cursor: pointer;
-// `;
-
-// export const RightButton = styled(GlobalButton)`
-//   width: 100%;
-//   border-radius: 0 4px 4px 0;
-//   max-width: 115px;
-//   min-width: 100px;
-//   padding: 12px;
-//   cursor: pointer;
-//   background-color: ${colors.white};
-// `;

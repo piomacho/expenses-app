@@ -1,4 +1,3 @@
-import { IExpense } from './inteface';
 export interface IExpenseStore {
   currentExpense: IExpense;
   editConversionRate: boolean;
