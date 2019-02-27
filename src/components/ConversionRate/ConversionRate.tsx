@@ -13,7 +13,7 @@ export interface IFormProps {
   euroValue: number;
   changeConversionRate: () => void;
   editConversionRate: boolean;
-  setEuroValue: (value: number) => void;
+  setEuroValue: (value: string) => void;
 }
 
 @observer
@@ -26,7 +26,7 @@ class ConversionRate extends React.Component<IFormProps> {
   };
 
   public handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.setEuroValue(+e.target.value);
+    this.props.setEuroValue(e.target.value);
   };
 
   public handleButtonChange = () => {

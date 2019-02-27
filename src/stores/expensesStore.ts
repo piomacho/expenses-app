@@ -21,7 +21,7 @@ class ExpensesStore {
   };
 
   @observable
-  euroValue: number = 4.382;
+  euroValue: number | string = 4.382;
 
   @observable
   editConversionRate: boolean = false;
@@ -54,7 +54,7 @@ class ExpensesStore {
     }
   };
 
-  @action setEuroValue = (value: number) => {
+  @action setEuroValue = (value: string) => {
     this.euroValue = value;
   };
 
@@ -100,7 +100,7 @@ class ExpensesStore {
   public setProperAmount = (amount: string, euro: boolean = false) => {
     const validAmount = amount.replace(',', '.');
     const roundedAmount = euro
-      ? (+validAmount / this.euroValue).toFixed(2)
+      ? (+validAmount / +this.euroValue).toFixed(2)
       : (+validAmount).toFixed(2);
     return roundedAmount.toString();
   };
