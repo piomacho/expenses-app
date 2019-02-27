@@ -1,25 +1,49 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
 
-class App extends Component {
+import { observer, inject } from 'mobx-react';
+
+import { FieldInput } from './FieldInput';
+import { ExpensesTable } from './components/Table';
+import { Form } from './components/Form';
+import { ConversionRate } from './components/ConversionRate';
+
+@inject('ExpensesStore')
+@observer
+class App extends React.Component<any, any> {
   render() {
+    const { ExpensesStore } = this.props;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div style={{ padding: '40px 60px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+          <h1>List of expenses</h1>
+          <ConversionRate />
+        </div>
+        <Form
+          addCurrentItem={ExpensesStore.addCurrentItem}
+          currentItem={ExpensesStore.currentItem}
+          addTitle={ExpensesStore.addTitle}
+        />
+        {ExpensesStore.errors &&
+          ExpensesStore.errors.map((errorMsg: string) => (
+            <p style={{ color: 'red' }}> {errorMsg}</p>
+          ))}
+
+        <ExpensesTable
+          expenses={ExpensesStore.items}
+          deleteItem={ExpensesStore.deleteItem}
+          euroValue={ExpensesStore.euroValue}
+        />
+        <div>
           <p>
-            Edit <code>src/App.tsx</code> and save to reload.
+            Sum: {ExpensesStore.expenseSumInPLN} PLN (
+            {ExpensesStore.expenseSumInEU}EUR)
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        </div>
       </div>
     );
   }
