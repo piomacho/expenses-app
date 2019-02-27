@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 
-import { observer, inject } from 'mobx-react';
 import { Button } from '../../common/globalStyles';
 import {
   ConversionRateWrapper,
@@ -8,39 +8,47 @@ import {
   CurrencyInput
 } from './ConversionRate.styles';
 
-@inject('ExpensesStore')
+export interface IFormProps {
+  addCurrentExpense: () => void;
+  euroValue: number;
+  changeConversionRate: () => void;
+  editConversionRate: boolean;
+  setEuroValue: (value: number) => void;
+}
+
 @observer
-class ConversionRate extends React.Component<any, any> {
-  public handleSubmit = (e: any) => {
-    const { addCurrentItem } = this.props;
+class ConversionRate extends React.Component<IFormProps> {
+  public handleSubmit = (e: React.FormEvent) => {
+    const { addCurrentExpense } = this.props;
+
     e.preventDefault();
-    addCurrentItem();
-  };
-  // trim
-  public handleChange = (e: any) => {
-    this.props.ExpensesStore.euroValue = e.target.value;
+    addCurrentExpense();
   };
 
-  public handleTo = () => {
-    this.props.ExpensesStore.changeConversionRate();
+  public handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.setEuroValue(+e.target.value);
+  };
+
+  public handleButtonChange = () => {
+    this.props.changeConversionRate();
   };
   render() {
-    const { ExpensesStore, modifyConverionRate } = this.props;
+    const { editConversionRate, euroValue } = this.props;
 
     return (
       <ConversionRateWrapper>
-        <Button onClick={this.handleTo}>
-          {!ExpensesStore.editConversionRate ? 'Edit' : 'Apply'}
+        <Button onClick={this.handleButtonChange}>
+          {!editConversionRate ? 'Edit' : 'Apply'}
         </Button>
         <CurrencyContainer>
           {' '}
           1 EUR ={' '}
-          {!ExpensesStore.editConversionRate ? (
-            ExpensesStore.euroValue
+          {!editConversionRate ? (
+            euroValue
           ) : (
             <CurrencyInput
-              value={ExpensesStore.euroValue}
-              onChange={this.handleChange}
+              value={euroValue}
+              onChange={this.handleInputChange}
             />
           )}{' '}
           PLN

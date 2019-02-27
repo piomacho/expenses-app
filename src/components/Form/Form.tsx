@@ -1,6 +1,6 @@
 import * as React from 'react';
-
 import { observer, inject } from 'mobx-react';
+
 import {
   FieldWrapper,
   FormContainer,
@@ -9,18 +9,25 @@ import {
   Input
 } from './Form.styles';
 import { Button } from '../../common/globalStyles';
+import { IExpense } from '../../stores/expensesStore';
 
-// @inject('ExpensesStore')
+export interface IFormProps {
+  addCurrentExpense: () => void;
+  currentExpense: IExpense;
+  addFieldContent: (value: string, nameOfField: string) => void;
+}
+@inject('ExpensesStore')
 @observer
-class Form extends React.Component<any, any> {
-  public handleSubmit = (e: any) => {
-    const { addCurrentItem } = this.props;
+class Form extends React.Component<IFormProps> {
+  public handleSubmit = (e: React.FormEvent) => {
+    const { addCurrentExpense } = this.props;
+
     e.preventDefault();
-    addCurrentItem();
+    addCurrentExpense();
   };
 
   render() {
-    const { addFieldContent, currentItem } = this.props;
+    const { addFieldContent, currentExpense } = this.props;
     return (
       <form onSubmit={this.handleSubmit}>
         <FormContainer>
@@ -28,14 +35,14 @@ class Form extends React.Component<any, any> {
             <FieldWrapper>
               <div>Title of transaction</div>
               <Input
-                value={currentItem.title}
+                value={currentExpense.title}
                 onChange={e => addFieldContent(e.target.value, 'title')}
               />
             </FieldWrapper>
             <FieldWrapper>
               <div>Amount (in PLN)</div>
               <Input
-                value={currentItem.amount}
+                value={currentExpense.amount}
                 onChange={e => addFieldContent(e.target.value, 'amount')}
               />
             </FieldWrapper>

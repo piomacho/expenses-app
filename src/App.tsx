@@ -1,51 +1,62 @@
 import * as React from 'react';
-
 import { observer, inject } from 'mobx-react';
 
-import { FieldInput } from './FieldInput';
 import { ExpensesTable } from './components/Table';
 import { Form } from './components/Form';
 import { ConversionRate } from './components/ConversionRate';
 import ErrorMessages from './components/ErrorMessages/ErrorMessages';
+import Summary from './components/Summary/Summary';
+import { AppWrapper, HeaderWrapper } from './App.styles';
 
 @inject('ExpensesStore')
 @observer
-class App extends React.Component<any, any> {
+// no idea how to type this injection
+class App extends React.Component<any> {
   render() {
-    const { ExpensesStore } = this.props;
+    const {
+      addCurrentExpense,
+      currentExpense,
+      addFieldContent,
+      errors,
+      expenses,
+      deleteExpense,
+      euroValue,
+      expenseSumInPLN,
+      expenseSumInEU,
+      changeConversionRate,
+      editConversionRate,
+      setEuroValue
+    } = this.props.ExpensesStore;
     return (
-      <div style={{ padding: '40px 60px' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}>
+      <AppWrapper>
+        <HeaderWrapper>
           <h1>List of expenses</h1>
-          <ConversionRate />
-        </div>
+
+          <ConversionRate
+            addCurrentExpense={addCurrentExpense}
+            euroValue={euroValue}
+            changeConversionRate={changeConversionRate}
+            editConversionRate={editConversionRate}
+            setEuroValue={setEuroValue}
+          />
+        </HeaderWrapper>
         <Form
-          addCurrentItem={ExpensesStore.addCurrentItem}
-          currentItem={ExpensesStore.currentItem}
-          addFieldContent={ExpensesStore.addFieldContent}
+          addCurrentExpense={addCurrentExpense}
+          currentExpense={currentExpense}
+          addFieldContent={addFieldContent}
         />
-        <ErrorMessages errors={ExpensesStore.errors} />
-        {ExpensesStore.items.length !== 0 && (
+        <ErrorMessages errors={errors} />
+        {expenses.length !== 0 && (
           <div>
             <ExpensesTable
-              expenses={ExpensesStore.items}
-              deleteItem={ExpensesStore.deleteItem}
-              euroValue={ExpensesStore.euroValue}
+              expenses={expenses}
+              deleteExpense={deleteExpense}
+              euroValue={euroValue}
             />
-            <div>
-              <p>
-                Sum: {ExpensesStore.expenseSumInPLN} PLN (
-                {ExpensesStore.expenseSumInEU.toFixed(2)} EUR)
-              </p>
-            </div>
+            <Summary sumInPLN={expenseSumInPLN} sumInEURO={expenseSumInEU} />
           </div>
         )}
-      </div>
+      </AppWrapper>
     );
   }
 }

@@ -9,12 +9,12 @@ export interface IExpense {
   [key: string]: string;
 }
 
-class Applicationstate {
+class ExpensesStore {
   @observable
-  items: IExpense[] = [];
+  expenses: IExpense[] = [];
 
   @observable
-  currentItem: IExpense = {
+  currentExpense: IExpense = {
     title: '',
     amount: '',
     euroAmount: ''
@@ -30,27 +30,21 @@ class Applicationstate {
   errors: string[] = [];
 
   @action addFieldContent = (value: string, nameOfField: string) => {
-    this.currentItem[nameOfField] = value;
+    this.currentExpense[nameOfField] = value;
   };
 
   @action modifyConversionRate = (value: number) => {
     this.euroValue = value;
-    this.items = [];
+    this.expenses = [];
   };
 
-  public validateEuroValue = () => {
-    const currentValue = this.euroValue.toString();
-    if (!validateFloatNumber(currentValue)) {
-      this.errors.push('Invalid number, please correct conversion rate !');
-    }
-  };
   @action changeConversionRate = () => {
     this.editConversionRate = !this.editConversionRate;
     this.errors = [];
 
     this.validateEuroValue();
     if (!this.errors.length) {
-      this.items = this.items.map((singleOne: IExpense) => {
+      this.expenses = this.expenses.map((singleOne: IExpense) => {
         return {
           ...singleOne,
           amount: this.setProperAmount(singleOne.amount),
@@ -60,26 +54,47 @@ class Applicationstate {
     }
   };
 
-  @action addCurrentItem = () => {
+  @action setEuroValue = (value: number) => {
+    this.euroValue = value;
+  };
+
+  @action addCurrentExpense = () => {
     this.errors = [];
-    this.inspectValues(this.currentItem);
+    this.inspectValues(this.currentExpense);
     if (!this.errors.length) {
-      this.items.push({
-        ...this.currentItem,
-        amount: this.setProperAmount(this.currentItem.amount),
-        euroAmount: this.setProperAmount(this.currentItem.amount, true)
+      this.expenses.push({
+        ...this.currentExpense,
+        amount: this.setProperAmount(this.currentExpense.amount),
+        euroAmount: this.setProperAmount(this.currentExpense.amount, true)
       });
-      this.currentItem = { title: '', amount: '', euroAmount: '' };
+      this.currentExpense = { title: '', amount: '', euroAmount: '' };
     }
   };
 
-  @action deleteItem = (expense: IExpense) => {
-    const index = this.items.findIndex(
-      item => item.title === toJS(expense).title
+  @action deleteExpense = (expense: IExpense) => {
+    const index = this.expenses.findIndex(
+      expenseElement => expenseElement.title === toJS(expense).title
     );
 
-    this.items.splice(index, 1);
+    this.expenses.splice(index, 1);
   };
+
+  @computed get expenseSumInPLN() {
+    return (
+      this.expenses.length &&
+      this.expenses.reduce((allExpenses, currentExpense) => {
+        return (allExpenses += +currentExpense.amount);
+      }, 0)
+    );
+  }
+  @computed get expenseSumInEU() {
+    return (
+      this.expenses.length &&
+      this.expenses.reduce((allExpenses, currentExpense) => {
+        return (allExpenses += +currentExpense.euroAmount);
+      }, 0)
+    );
+  }
 
   public inspectTitleLength = (title: string) => title.trim().length > 4;
   public setProperAmount = (amount: string, euro: boolean = false) => {
@@ -97,25 +112,22 @@ class Applicationstate {
     if (!validateFloatNumber(element.amount)) {
       this.errors.push('Invalid number, please correct PLN amount !');
     }
+    if (this.inspectDuplication(element.title)) {
+      this.errors.push('There is already expense with this title!');
+    }
   };
 
-  @computed get expenseSumInPLN() {
-    return (
-      this.items.length &&
-      this.items.reduce((allExpenses, currentExpense) => {
-        return (allExpenses += +currentExpense.amount);
-      }, 0)
-    );
-  }
-  @computed get expenseSumInEU() {
-    return (
-      this.items.length &&
-      this.items.reduce((allExpenses, currentExpense) => {
-        return (allExpenses += +currentExpense.euroAmount);
-      }, 0)
-    );
-  }
+  public inspectDuplication = (title: string) => {
+    return this.expenses.some(e => e.title === title);
+  };
+
+  public validateEuroValue = () => {
+    const currentValue = this.euroValue.toString();
+    if (!validateFloatNumber(currentValue)) {
+      this.errors.push('Invalid number, please correct conversion rate !');
+    }
+  };
 }
 
-const appState = new Applicationstate();
+const appState = new ExpensesStore();
 export default appState;

@@ -3,10 +3,10 @@ import { observer } from 'mobx-react';
 import { AlertMessage, MessagesWrapper } from './ErrorMessages.styles';
 
 export interface IErrorMessageProps {
-  expenses: string[];
+  errors: string[];
 }
 
-const ErrorMessages = observer(({ errors }: any) => {
+const ErrorMessages = observer(({ errors }: IErrorMessageProps) => {
   return (
     <MessagesWrapper>
       {errors &&

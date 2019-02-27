@@ -8,5 +8,5 @@ export const AlertMessage = styled.div`
 `;
 
 export const MessagesWrapper = styled.div`
-  min-height: 52px;
+  min-height: 75px;
 `;
