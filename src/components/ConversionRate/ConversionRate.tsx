@@ -1,6 +1,12 @@
 import * as React from 'react';
 
 import { observer, inject } from 'mobx-react';
+import { Button } from '../../common/globalStyles';
+import {
+  ConversionRateWrapper,
+  CurrencyContainer,
+  CurrencyInput
+} from './ConversionRate.styles';
 
 @inject('ExpensesStore')
 @observer
@@ -12,7 +18,6 @@ class ConversionRate extends React.Component<any, any> {
   };
   // trim
   public handleChange = (e: any) => {
-    console.log(e.target.value);
     this.props.ExpensesStore.euroValue = e.target.value;
   };
 
@@ -23,31 +28,24 @@ class ConversionRate extends React.Component<any, any> {
     const { ExpensesStore, modifyConverionRate } = this.props;
 
     return (
-      <div>
-        {' '}
-        <div>
+      <ConversionRateWrapper>
+        <Button onClick={this.handleTo}>
+          {!ExpensesStore.editConversionRate ? 'Edit' : 'Apply'}
+        </Button>
+        <CurrencyContainer>
           {' '}
           1 EUR ={' '}
           {!ExpensesStore.editConversionRate ? (
             ExpensesStore.euroValue
           ) : (
-            <input
+            <CurrencyInput
               value={ExpensesStore.euroValue}
               onChange={this.handleChange}
             />
           )}{' '}
           PLN
-        </div>
-        <div
-          style={{
-            width: '30px',
-            height: '30px',
-            backgroundColor: '#aaaaaa'
-          }}
-          onClick={this.handleTo}>
-          {!ExpensesStore.editConversionRate ? 'Edit' : 'Reset'}
-        </div>
-      </div>
+        </CurrencyContainer>
+      </ConversionRateWrapper>
     );
   }
 }

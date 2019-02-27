@@ -6,6 +6,7 @@ import { FieldInput } from './FieldInput';
 import { ExpensesTable } from './components/Table';
 import { Form } from './components/Form';
 import { ConversionRate } from './components/ConversionRate';
+import ErrorMessages from './components/ErrorMessages/ErrorMessages';
 
 @inject('ExpensesStore')
 @observer
@@ -26,24 +27,24 @@ class App extends React.Component<any, any> {
         <Form
           addCurrentItem={ExpensesStore.addCurrentItem}
           currentItem={ExpensesStore.currentItem}
-          addTitle={ExpensesStore.addTitle}
+          addFieldContent={ExpensesStore.addFieldContent}
         />
-        {ExpensesStore.errors &&
-          ExpensesStore.errors.map((errorMsg: string) => (
-            <p style={{ color: 'red' }}> {errorMsg}</p>
-          ))}
-
-        <ExpensesTable
-          expenses={ExpensesStore.items}
-          deleteItem={ExpensesStore.deleteItem}
-          euroValue={ExpensesStore.euroValue}
-        />
-        <div>
-          <p>
-            Sum: {ExpensesStore.expenseSumInPLN} PLN (
-            {ExpensesStore.expenseSumInEU}EUR)
-          </p>
-        </div>
+        <ErrorMessages errors={ExpensesStore.errors} />
+        {ExpensesStore.items.length !== 0 && (
+          <div>
+            <ExpensesTable
+              expenses={ExpensesStore.items}
+              deleteItem={ExpensesStore.deleteItem}
+              euroValue={ExpensesStore.euroValue}
+            />
+            <div>
+              <p>
+                Sum: {ExpensesStore.expenseSumInPLN} PLN (
+                {ExpensesStore.expenseSumInEU.toFixed(2)} EUR)
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

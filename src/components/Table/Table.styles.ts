@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as styles from '../../common/constants';
+import * as colors from '../../common/colors';
 import { ITableProps } from './Table';
 
 interface TableProps {
@@ -8,40 +8,28 @@ interface TableProps {
 
 export const Row = styled.tr<TableProps>`
   background-color: ${props =>
-    props.index % 2 === 0 ? styles.elephantGray : styles.seaBlue};
+    props.index % 2 === 0 ? colors.aliceBlue : colors.seaBlue};
 `;
 
 export const Table = styled.table`
-  table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
-  border: 2px solid #ddd;
+  border: 1px solid ${colors.carbonGray};
 `;
 
 export const HeaderRow = styled.tr`
-  background-color: ${styles.elephantGray};
-  & > th {
-    &:nth-child(1) {
-      width: 40%;
-    }
-    &th:nth-child(2) {
-      width: 25%;
-    }
-    &th:nth-child(3) {
-      width: 25%;
-    }
-    &th:nth-child(4) {
-      width: 10%;
-    }
-  }
+  background-color: ${colors.neutral};
+  color: ${colors.carbonGray};
 `;
 
 export const HeaderCell = styled.th`
   padding: 10px;
   text-align: left;
+  border: 1px solid ${colors.carbonGray};
 `;
 export const TableCell = styled.td`
   padding: 10px;
+  border: 1px solid ${colors.carbonGray};
 `;
 
 export const Header = styled.thead`
@@ -61,36 +49,16 @@ export const Header = styled.thead`
 `;
 
 export const Button = styled.button`
-  border: 1px solid ${styles.elephantGray};
+  border: 1px solid ${colors.carbonGray};
   border-radius: 4px;
   padding: 5px 10px;
 
-  color: ${styles.seaBlue};
+  color: ${colors.carbonGray};
   outline-style: none;
   cursor: pointer;
 
   &:hover {
-    color: #fff;
-    background-color: rgba(222, 100, 100, 0.5);
+    color: ${colors.white};
+    background-color: rgba(222, 100, 100, 0.7);
   }
 `;
-// export const LeftButton = styled(GlobalButton)`
-//   border-right: none;
-//   width: 100%;
-//   border-radius: 4px 0 0 4px;
-//   border-right: none;
-//   max-width: 115px;
-//   min-width: 100px;
-//   padding: 12px;
-//   cursor: pointer;
-// `;
-
-// export const RightButton = styled(GlobalButton)`
-//   width: 100%;
-//   border-radius: 0 4px 4px 0;
-//   max-width: 115px;
-//   min-width: 100px;
-//   padding: 12px;
-//   cursor: pointer;
-//   background-color: ${colors.white};
-// `;

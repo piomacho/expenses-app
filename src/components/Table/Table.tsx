@@ -10,21 +10,15 @@ import {
   TableCell,
   Button
 } from './Table.styles';
-import { toJS } from 'mobx';
-// import console = require('console');
 
 export interface ITableProps {
   expenses: IExpense[];
   deleteItem: any;
-  euroValue: any;
+  euroValue: number;
 }
 
-// const handleDelete = (expense: IExpense) => {
-//    expense.title);
-// };
 const ExpensesTable = observer(
   ({ expenses, deleteItem, euroValue }: ITableProps) => {
-    console.log('this proproproppro ', toJS(expenses), ' !!!! ', euroValue);
     return (
       <Table>
         <Header>

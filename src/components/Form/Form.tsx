@@ -6,9 +6,9 @@ import {
   FormContainer,
   Inputs,
   ButtonWrapper,
-  Input,
-  Button
+  Input
 } from './Form.styles';
+import { Button } from '../../common/globalStyles';
 
 // @inject('ExpensesStore')
 @observer
@@ -18,10 +18,9 @@ class Form extends React.Component<any, any> {
     e.preventDefault();
     addCurrentItem();
   };
-  // trim
 
   render() {
-    const { addTitle, currentItem } = this.props;
+    const { addFieldContent, currentItem } = this.props;
     return (
       <form onSubmit={this.handleSubmit}>
         <FormContainer>
@@ -30,14 +29,14 @@ class Form extends React.Component<any, any> {
               <div>Title of transaction</div>
               <Input
                 value={currentItem.title}
-                onChange={(e: any) => addTitle(e.target.value, 'title')}
+                onChange={e => addFieldContent(e.target.value, 'title')}
               />
             </FieldWrapper>
             <FieldWrapper>
               <div>Amount (in PLN)</div>
               <Input
                 value={currentItem.amount}
-                onChange={(e: any) => addTitle(e.target.value, 'amount')}
+                onChange={e => addFieldContent(e.target.value, 'amount')}
               />
             </FieldWrapper>
           </Inputs>

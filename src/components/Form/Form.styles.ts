@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as styles from '../../common/constants';
+import * as styles from '../../common/colors';
 
 export const FieldWrapper = styled.div`
   padding-top: 20px;
@@ -12,20 +12,6 @@ export const ButtonWrapper = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-`;
-export const Button = styled.button`
-  border: 1px solid ${styles.elephantGray};
-  border-radius: 4px;
-  padding: 10px 50px;
-
-  color: ${styles.seaBlue};
-  outline-style: none;
-  cursor: pointer;
-
-  &:hover {
-    color: #fff;
-    background-color: #ff0000;
-  }
 `;
 export const FormContainer = styled.div`
   display: flex;
@@ -43,7 +29,7 @@ export const Input = styled.input`
 `;
 
 export const HeaderRow = styled.tr`
-  background-color: ${styles.elephantGray};
+  background-color: ${styles.carbonGray};
   & > th {
     &:nth-child(1) {
       width: 40%;
