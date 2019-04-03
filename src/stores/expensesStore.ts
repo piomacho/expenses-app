@@ -15,14 +15,9 @@ class ExpensesStore {
   fetchInterval = 0;
   @observable conversionRate: string = ''; // initial value
 
-  // call from componentDidMount or whatever
   @action init = () => {
-    // if (!this.fetchInterval) {
     this.loading = true;
-    this.fetchConversionRate(); // initial fetch
-    // this.loading = false;
-    // this.fetchInterval = setInterval(() => this.fetchConversionRate(), 1000);
-    // }
+    this.fetchConversionRate();
   };
 
   @observable
@@ -138,13 +133,13 @@ class ExpensesStore {
 
   public inspectValues = (element: IExpense) => {
     if (!this.inspectTitleLength(element.title)) {
-      this.errors.push('Title must have at least 5 characters !');
+      this.errors.push('Tytuł musi mieć co najmniej 5 znaków !');
     }
     if (!validateFloatNumber(element.amount)) {
-      this.errors.push('Invalid number, please correct PLN amount !');
+      this.errors.push('Nieprawidłowa wartość, proszę poprawić kwotę w PLN !');
     }
     if (this.inspectDuplication(element.title)) {
-      this.errors.push('There is already expense with this title!');
+      this.errors.push('Istnieje już pole z podanym tytułem!');
     }
   };
 
@@ -155,7 +150,9 @@ class ExpensesStore {
   public validateEuroValue = () => {
     const currentValue = this.euroValue.toString();
     if (!validateFloatNumber(currentValue)) {
-      this.errors.push('Invalid number, please correct conversion rate !');
+      this.errors.push(
+        'Nieprawidłowa wartość, proszę poprawić wartość przeliczenia!'
+      );
     }
   };
 }
