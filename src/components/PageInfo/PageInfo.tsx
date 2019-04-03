@@ -28,6 +28,7 @@ const PageInfo: React.FunctionComponent<PageInfoProps> = props => {
             <li>HTML</li>
             <li>Css (Styled Components + Material UI)</li>
             <li>React JS</li>
+            <li>TypeScript</li>
             <li>MobX</li>
           </ul>
         </ListWrapper>
