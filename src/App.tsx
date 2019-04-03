@@ -7,11 +7,15 @@ import { ConversionRate } from './components/ConversionRate';
 import ErrorMessages from './components/ErrorMessages/ErrorMessages';
 import Summary from './components/Summary/Summary';
 import { AppWrapper, HeaderWrapper } from './App.styles';
+import { Loader } from './components/Loader';
 
 @inject('ExpensesStore')
 @observer
 // no idea how to type this injection
 class App extends React.Component<any> {
+  componentDidMount() {
+    this.props.ExpensesStore.init();
+  }
   render() {
     const {
       addCurrentExpense,
@@ -25,12 +29,14 @@ class App extends React.Component<any> {
       expenseSumInEU,
       changeConversionRate,
       editConversionRate,
-      setEuroValue
+      setEuroValue,
+      loading
     } = this.props.ExpensesStore;
-    return (
-      <AppWrapper>
+    return !loading ? (
+      <AppWrapper
+        style={{ backgroundColor: '#FFFAFA', height: 'calc(100vh - 144px)' }}>
         <HeaderWrapper>
-          <h1>List of expenses</h1>
+          <h1>Lista wydatków</h1>
 
           <ConversionRate
             addCurrentExpense={addCurrentExpense}
@@ -57,6 +63,8 @@ class App extends React.Component<any> {
           </div>
         )}
       </AppWrapper>
+    ) : (
+      <Loader />
     );
   }
 }

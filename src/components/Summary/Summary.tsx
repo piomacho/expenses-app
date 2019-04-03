@@ -13,7 +13,7 @@ const Summary: React.FunctionComponent<SummaryProps> = ({
 }) => {
   return (
     <Sums>
-      Sum: {sumInPLN} PLN ({sumInEURO.toFixed(2)} EUR)
+      Suma: {sumInPLN} PLN ({sumInEURO.toFixed(2)} EUR)
     </Sums>
   );
 };

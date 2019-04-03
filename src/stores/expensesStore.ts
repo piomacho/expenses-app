@@ -1,17 +1,33 @@
 import { observable, action, computed } from 'mobx';
 import { toJS } from 'mobx';
 import { validateFloatNumber } from '../common/constants';
+import axios from 'axios';
 
 export interface IExpense {
   title: string;
   amount: string;
   euroAmount: string;
   [key: string]: string;
+  // dashboard: string;
 }
 
 class ExpensesStore {
+  fetchInterval = 0;
+  @observable conversionRate: string = ''; // initial value
+
+  // call from componentDidMount or whatever
+  @action init = () => {
+    // if (!this.fetchInterval) {
+    this.loading = true;
+    this.fetchConversionRate(); // initial fetch
+    // this.loading = false;
+    // this.fetchInterval = setInterval(() => this.fetchConversionRate(), 1000);
+    // }
+  };
+
   @observable
   expenses: IExpense[] = [];
+  @observable loading: boolean = false;
 
   @observable
   currentExpense: IExpense = {
@@ -29,6 +45,27 @@ class ExpensesStore {
   @observable
   errors: string[] = [];
 
+  @action fetchConversionRate = () => {
+    this.loading = true;
+    axios
+      .get(
+        `http://data.fixer.io/api/latest?access_key=d43005dc398f821c422a3dd27d7bbd9c&format=1&symbols=PLN`
+      )
+      .then(response => response.data as any)
+      .then(data => {
+        this.euroValue = +data.rates.PLN.toFixed(4);
+        this.loading = false;
+      })
+      .catch(error => {
+        this.loading = false;
+        console.error('Error getting panel info: ' + error.toString());
+      });
+  };
+  //   if (error.response.status === 401) {
+  //     console.log('unauthorized, logging out ...');
+  //     auth.logout();
+  //     router.replace('/auth/login');
+  // }
   @action addFieldContent = (value: string, nameOfField: string) => {
     this.currentExpense[nameOfField] = value;
   };

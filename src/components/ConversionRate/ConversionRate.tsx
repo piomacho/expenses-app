@@ -38,7 +38,7 @@ class ConversionRate extends React.Component<IFormProps> {
     return (
       <ConversionRateWrapper>
         <Button onClick={this.handleButtonChange}>
-          {!editConversionRate ? 'Edit' : 'Apply'}
+          {!editConversionRate ? 'Edytuj' : 'Aktualizuj'}
         </Button>
         <CurrencyContainer>
           {' '}

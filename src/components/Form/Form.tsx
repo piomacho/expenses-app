@@ -34,14 +34,14 @@ class Form extends React.Component<IFormProps> {
         <FormContainer>
           <Inputs>
             <FieldWrapper>
-              <Title>Title of transaction</Title>
+              <Title>Tytuł</Title>
               <Input
                 value={currentExpense.title}
                 onChange={e => addFieldContent(e.target.value, 'title')}
               />
             </FieldWrapper>
             <FieldWrapper>
-              <Title>Amount (in PLN)</Title>
+              <Title>Kwota (PLN)</Title>
               <Input
                 value={currentExpense.amount}
                 onChange={e => addFieldContent(e.target.value, 'amount')}
@@ -49,7 +49,7 @@ class Form extends React.Component<IFormProps> {
             </FieldWrapper>
           </Inputs>
           <ButtonWrapper>
-            <Button type="submit">Add</Button>
+            <Button type="submit">Dodaj</Button>
           </ButtonWrapper>
         </FormContainer>
       </form>
