@@ -48,9 +48,7 @@ class ExpensesStore {
   @action fetchConversionRate = () => {
     this.loading = true;
     axios
-      .get(
-        `http://data.fixer.io/api/latest?access_key=d43005dc398f821c422a3dd27d7bbd9c&format=1&symbols=PLN`
-      )
+      .get(`https://api.exchangeratesapi.io/latest?base=EUR&symbols=PLN`)
       .then(response => response.data as any)
       .then(data => {
         this.euroValue = +data.rates.PLN.toFixed(4);
@@ -61,11 +59,7 @@ class ExpensesStore {
         console.error('Error getting panel info: ' + error.toString());
       });
   };
-  //   if (error.response.status === 401) {
-  //     console.log('unauthorized, logging out ...');
-  //     auth.logout();
-  //     router.replace('/auth/login');
-  // }
+
   @action addFieldContent = (value: string, nameOfField: string) => {
     this.currentExpense[nameOfField] = value;
   };

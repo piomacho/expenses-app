@@ -20,11 +20,6 @@ const routing = (
     </Provider>
   </Router>
 );
-// const Root = (
-//   <Provider ExpensesStore={appState}>
-//     <App />
-//   </Provider>
-// );
 
 ReactDOM.render(routing, document.getElementById('root'));
 
