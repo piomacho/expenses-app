@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import * as colors from '../../common/colors';
-import { ITableProps } from './Table';
 
 interface TableProps {
-  index: number;
+  index?: number;
+  usage?: string;
 }
 
 export const Row = styled.tr<TableProps>`
   background-color: ${props =>
-    props.index % 2 === 0 ? colors.aliceBlue : colors.seaBlue};
+    props.index !== undefined && props.index % 2 === 0 ? colors.aliceBlue : colors.seaBlue};
 `;
 
 export const Table = styled.table`
@@ -40,7 +40,7 @@ export const TableCell = styled.td`
   border: 1px solid ${colors.carbonGray};
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<TableProps>`
   border: 1px solid ${colors.carbonGray};
   border-radius: 4px;
   padding: 5px 10px;
@@ -51,6 +51,6 @@ export const Button = styled.button`
 
   &:hover {
     color: ${colors.white};
-    background-color: rgba(222, 100, 100, 0.7);
+    background-color:${props => props.usage === "remove" ? `rgba(222, 100, 100, 0.7)` : `rgba(230,185,0, 0.7)`};
   }
 `;
