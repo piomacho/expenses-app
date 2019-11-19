@@ -17,6 +17,14 @@ export const Table = styled.table`
   border: 1px solid ${colors.carbonGray};
 `;
 
+export const HeaderTitle = styled.div``;
+
+export const HeaderCellWrapper = styled.th`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const HeaderRow = styled.tr`
   background-color: ${colors.neutral};
   color: ${colors.carbonGray};

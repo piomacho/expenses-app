@@ -1,33 +1,60 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
-import { IExpense } from '../../stores/expensesStore';
+import { IExpense, IFilter } from '../../stores/expensesStore';
 import {
   Row,
   Table,
   HeaderRow,
   HeaderCell,
   TableCell,
-  Button
+  Button,
+  HeaderCellWrapper,
+  HeaderTitle
 } from './Table.styles';
 
 export interface ITableProps {
   expenses: IExpense[];
   deleteExpense: (expense: IExpense) => void;
+  sortByParam: (param : string, order: string) => any;
   euroValue: number;
+  filter: IFilter;
 }
 
-const ExpensesTable = observer(({ expenses, deleteExpense }: ITableProps) => {
+const filterStatement = (amount: number, from: number, to: number) =>{
+    if(from && to) {
+      return amount >= from && amount <= to;
+    } else if (from) {
+      return amount >= from;
+    } else if (to){
+      return amount <= to
+    }
+    return true;
+}
+
+const ExpensesTable = observer(({ expenses, deleteExpense, sortByParam, filter }: ITableProps) => {
   return (
     <Table>
       <tbody>
         <HeaderRow>
-          <HeaderCell>Tytuł</HeaderCell>
-          <HeaderCell>KwotaPLN)</HeaderCell>
-          <HeaderCell>Kwota(EUR)</HeaderCell>
+          <HeaderCell>
+            <HeaderTitle>Tytuł</HeaderTitle>
+            <button onClick={() => sortByParam("title", "ASC")}> up </button>
+            <button onClick={() => sortByParam("title", "DESC")}> d </button>
+          </HeaderCell>
+          <HeaderCell>
+            <HeaderTitle>Kwota (PLN)</HeaderTitle>
+            <button onClick={() => sortByParam("amount", "ASC")}> up </button>
+            <button onClick={() => sortByParam("amount", "DESC")}> d </button>
+          </HeaderCell>
+          <HeaderCell>
+            <HeaderTitle>Kwota (EUR)</HeaderTitle>
+            <button onClick={() => sortByParam("euroAmount", "ASC")}> up </button>
+            <button onClick={() => sortByParam("euroAmount", "DESC")}> d </button>
+          </HeaderCell>
           <HeaderCell>Opcje</HeaderCell>
         </HeaderRow>
-        {expenses.map((expense: IExpense, index: number) => {
+        {expenses.filter(x => filterStatement(+x.amount, +filter.from, +filter.to)).map((expense: IExpense, index: number) => {
           return (
             <Row key={index} index={index}>
               <TableCell>{expense.title}</TableCell>

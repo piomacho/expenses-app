@@ -8,6 +8,7 @@ import ErrorMessages from './components/ErrorMessages/ErrorMessages';
 import Summary from './components/Summary/Summary';
 import { AppWrapper, HeaderWrapper } from './App.styles';
 import { Loader } from './components/Loader';
+import Filters from './components/Filters/Filters';
 
 @inject('ExpensesStore')
 @observer
@@ -30,8 +31,13 @@ class App extends React.Component<any> {
       changeConversionRate,
       editConversionRate,
       setEuroValue,
-      loading
+      loading,
+      sortByParam,
+      filter,
+      filterByRange,
+      addFilterContent
     } = this.props.ExpensesStore;
+    // console.log("FILTER", filter.to)
     return !loading ? (
       <AppWrapper
         style={{ backgroundColor: '#FFFAFA', height: 'calc(100vh - 144px)' }}>
@@ -54,10 +60,18 @@ class App extends React.Component<any> {
         <ErrorMessages errors={errors} />
         {expenses.length !== 0 && (
           <div>
+            <Filters
+              filter={filter}
+              filterByRange={filterByRange}
+              addFilterContent={addFilterContent}
+
+            />
             <ExpensesTable
               expenses={expenses}
               deleteExpense={deleteExpense}
               euroValue={euroValue}
+              sortByParam={sortByParam}
+              filter={filter}
             />
             <Summary sumInPLN={expenseSumInPLN} sumInEURO={expenseSumInEU} />
           </div>

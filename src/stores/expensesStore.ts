@@ -8,9 +8,31 @@ export interface IExpense {
   amount: string;
   euroAmount: string;
   [key: string]: string;
-  // dashboard: string;
 }
 
+export interface IFilter {
+  from: string;
+  to: string;
+  [key: string]: string;
+}
+
+const initExpenses: IExpense[] = [
+  {
+    title: 'Suszarka', 
+    amount: '25.50',
+    euroAmount: `${(25.5 / 4.382).toFixed(2)}`
+  },
+  {
+    title: 'Żelazko', 
+    amount: '323.30',
+    euroAmount: `${(323.3 / 4.382).toFixed(2)}`
+  },
+  {
+    title: 'Płyta CD', 
+    amount: '5.99',
+    euroAmount: `${(5.99 / 4.382).toFixed(2)}`
+  }
+];
 class ExpensesStore {
   fetchInterval = 0;
   @observable conversionRate: string = ''; // initial value
@@ -21,7 +43,7 @@ class ExpensesStore {
   };
 
   @observable
-  expenses: IExpense[] = [];
+  expenses: IExpense[] = initExpenses;
   @observable loading: boolean = false;
 
   @observable
@@ -29,6 +51,12 @@ class ExpensesStore {
     title: '',
     amount: '',
     euroAmount: ''
+  };
+
+  @observable
+  filter: IFilter = {
+    from: '',
+    to: '',
   };
 
   @observable
@@ -58,11 +86,30 @@ class ExpensesStore {
   @action addFieldContent = (value: string, nameOfField: string) => {
     this.currentExpense[nameOfField] = value;
   };
+  @action addFilterContent = (value: string, nameOfField: string) => {
+    this.filter[nameOfField] = value;
+  };
 
   @action modifyConversionRate = (value: number) => {
     this.euroValue = value;
     this.expenses = [];
   };
+
+  @action updateRow = (name: string, title: string, amount: string) => {
+    const foundIndex = this.expenses.findIndex( x => x.name === name);
+    this.expenses[foundIndex].title = title;
+    this.expenses[foundIndex].amount = amount;
+    // this.expenses[foundIndex].title = title;
+  }
+
+  @action getInfoAboutRow = (name: string) => {
+    const foundIndex = this.expenses.findIndex( x => x.name === name);
+    return this.expenses[foundIndex];
+  }
+
+  @action filterByRange = (from: string, to: string) => {
+    this.expenses = this.expenses.filter(x => +x.amount >= +from && +x.amount <= +to)
+  }
 
   @action changeConversionRate = () => {
     this.editConversionRate = !this.editConversionRate;
@@ -79,6 +126,15 @@ class ExpensesStore {
       });
     }
   };
+
+ @action sortByParam = (value: string, type: string, order: string) => {
+   if(type === "ASC") {
+      this.expenses = this.expenses.sort((a, b) => +a[value] > +b[value] ? 1 : -1);
+   } else {
+      this.expenses = this.expenses.sort((a, b) => +a[value] < +b[value] ? 1 : -1);
+   }
+ }
+
 
   @action setEuroValue = (value: string) => {
     this.euroValue = value;
