@@ -7,6 +7,7 @@ export interface IExpense {
   title: string;
   amount: string;
   euroAmount: string;
+  picture: string;
   [key: string]: string;
 }
 
@@ -18,19 +19,23 @@ export interface IFilter {
 
 const initExpenses: IExpense[] = [
   {
-    title: 'Suszarka', 
+    title: 'Suszarka',
     amount: '25.50',
-    euroAmount: `${(25.5 / 4.382).toFixed(2)}`
+    euroAmount: `${(25.5 / 4.382).toFixed(2)}`,
+    picture:
+      'https://ecsmedia.pl/c/suszarka-do-wlosow-philips-bhd002-00-1600-w-w-iext40358030.jpg'
   },
   {
-    title: 'Żelazko', 
+    title: 'Żelazko',
     amount: '323.30',
-    euroAmount: `${(323.3 / 4.382).toFixed(2)}`
+    euroAmount: `${(323.3 / 4.382).toFixed(2)}`,
+    picture: 'https://mirapolnext.pl/images/123714.jpg'
   },
   {
-    title: 'Płyta CD', 
+    title: 'Płyta CD',
     amount: '5.99',
-    euroAmount: `${(5.99 / 4.382).toFixed(2)}`
+    euroAmount: `${(5.99 / 4.382).toFixed(2)}`,
+    picture: ''
   }
 ];
 class ExpensesStore {
@@ -50,13 +55,14 @@ class ExpensesStore {
   currentExpense: IExpense = {
     title: '',
     amount: '',
-    euroAmount: ''
+    euroAmount: '',
+    picture: ''
   };
 
   @observable
   filter: IFilter = {
     from: '',
-    to: '',
+    to: ''
   };
 
   @observable
@@ -95,21 +101,31 @@ class ExpensesStore {
     this.expenses = [];
   };
 
-  @action updateRow = (name: string, title: string, amount: string) => {
-    const foundIndex = this.expenses.findIndex( x => x.name === name);
-    this.expenses[foundIndex].title = title;
-    this.expenses[foundIndex].amount = amount;
-    // this.expenses[foundIndex].title = title;
-  }
+  @action updateRow = (title: string, value: string, nameOfField: string) => {
+    const foundIndex = this.expenses.findIndex(x => x.title === title);
+    if (foundIndex !== -1) {
+      this.expenses[foundIndex][nameOfField] = value;
+      this.errors = [];
+      this.inspectValues(this.expenses[foundIndex], true);
+    }
+  };
+
+  // @action checkUpdatedValues = (title: string) => {
+  //   const foundIndex = this.expenses.findIndex(x => x.title === title);
+  //   this.inspectValues(this.expenses[foundIndex]);
+  //   // console.log('ERRR', this.errors);
+  // };
 
   @action getInfoAboutRow = (name: string) => {
-    const foundIndex = this.expenses.findIndex( x => x.name === name);
+    const foundIndex = this.expenses.findIndex(x => x.title === name);
     return this.expenses[foundIndex];
-  }
+  };
 
   @action filterByRange = (from: string, to: string) => {
-    this.expenses = this.expenses.filter(x => +x.amount >= +from && +x.amount <= +to)
-  }
+    this.expenses = this.expenses.filter(
+      x => +x.amount >= +from && +x.amount <= +to
+    );
+  };
 
   @action changeConversionRate = () => {
     this.editConversionRate = !this.editConversionRate;
@@ -127,14 +143,17 @@ class ExpensesStore {
     }
   };
 
- @action sortByParam = (value: string, type: string, order: string) => {
-   if(type === "ASC") {
-      this.expenses = this.expenses.sort((a, b) => +a[value] > +b[value] ? 1 : -1);
-   } else {
-      this.expenses = this.expenses.sort((a, b) => +a[value] < +b[value] ? 1 : -1);
-   }
- }
-
+  @action sortByParam = (value: string, type: string, order: string) => {
+    if (type === 'ASC') {
+      this.expenses = this.expenses.sort((a, b) =>
+        +a[value] > +b[value] ? 1 : -1
+      );
+    } else {
+      this.expenses = this.expenses.sort((a, b) =>
+        +a[value] < +b[value] ? 1 : -1
+      );
+    }
+  };
 
   @action setEuroValue = (value: string) => {
     this.euroValue = value;
@@ -149,7 +168,12 @@ class ExpensesStore {
         amount: this.setProperAmount(this.currentExpense.amount),
         euroAmount: this.setProperAmount(this.currentExpense.amount, true)
       });
-      this.currentExpense = { title: '', amount: '', euroAmount: '' };
+      this.currentExpense = {
+        title: '',
+        amount: '',
+        euroAmount: '',
+        picture: ''
+      };
     }
   };
 
@@ -187,14 +211,14 @@ class ExpensesStore {
     return roundedAmount.toString();
   };
 
-  public inspectValues = (element: IExpense) => {
+  public inspectValues = (element: IExpense, isEdit?: boolean) => {
     if (!this.inspectTitleLength(element.title)) {
       this.errors.push('Tytuł musi mieć co najmniej 5 znaków !');
     }
     if (!validateFloatNumber(element.amount)) {
       this.errors.push('Nieprawidłowa wartość, proszę poprawić kwotę w PLN !');
     }
-    if (this.inspectDuplication(element.title)) {
+    if (!isEdit && this.inspectDuplication(element.title)) {
       this.errors.push('Istnieje już pole z podanym tytułem!');
     }
   };

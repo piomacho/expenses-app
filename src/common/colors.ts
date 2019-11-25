@@ -4,3 +4,4 @@ export const aliceBlue = '#f0f8ff';
 export const red = '#ff3b3f';
 export const neutral = '#efefef';
 export const white = '#ffffff';
+export const black = '#000000';

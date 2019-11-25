@@ -26,7 +26,7 @@ function NavigationBar(props: any) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: '#000' }}>
         <Toolbar>
           <IconButton
             className={classes.menuButton}

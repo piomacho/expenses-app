@@ -35,7 +35,9 @@ class App extends React.Component<any> {
       sortByParam,
       filter,
       filterByRange,
-      addFilterContent
+      addFilterContent,
+      getInfoAboutRow,
+      updateRow
     } = this.props.ExpensesStore;
     // console.log("FILTER", filter.to)
     return !loading ? (
@@ -64,7 +66,6 @@ class App extends React.Component<any> {
               filter={filter}
               filterByRange={filterByRange}
               addFilterContent={addFilterContent}
-
             />
             <ExpensesTable
               expenses={expenses}
@@ -72,6 +73,10 @@ class App extends React.Component<any> {
               euroValue={euroValue}
               sortByParam={sortByParam}
               filter={filter}
+              getInfoAboutRow={getInfoAboutRow}
+              updateRow={updateRow}
+              errors={errors}
+              // addFieldContent={addFieldContent}
             />
             <Summary sumInPLN={expenseSumInPLN} sumInEURO={expenseSumInEU} />
           </div>

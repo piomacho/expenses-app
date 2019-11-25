@@ -1,4 +1,3 @@
-import { carbonGray } from './../../common/colors';
 import styled from 'styled-components';
 import * as colors from '../../common/colors';
 
@@ -17,7 +16,7 @@ export const ButtonWrapper = styled.div`
 export const FormContainer = styled.div`
   display: flex;
   height: 100px;
-  margin-bottom: 40px;
+  margin-bottom: 70px;
 `;
 export const Inputs = styled.div`
   width: 70%;

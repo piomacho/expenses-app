@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgb(255, 250, 250);
+  /* background-color: rgb(255, 250, 250); */
   /* align-items: center; */
 `;
 

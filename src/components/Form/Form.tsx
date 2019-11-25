@@ -47,6 +47,13 @@ class Form extends React.Component<IFormProps> {
                 onChange={e => addFieldContent(e.target.value, 'amount')}
               />
             </FieldWrapper>
+            <FieldWrapper>
+              <Title>Obrazek - url (opcjonalne)</Title>
+              <Input
+                value={currentExpense.picture}
+                onChange={e => addFieldContent(e.target.value, 'picture')}
+              />
+            </FieldWrapper>
           </Inputs>
           <ButtonWrapper>
             <Button type="submit">Dodaj</Button>

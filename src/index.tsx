@@ -7,7 +7,7 @@ import { Provider } from 'mobx-react';
 import appState from './stores/expensesStore';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import { PageInfo } from './components/PageInfo';
-import { NavigationBar } from './NavigationBar';
+import { NavigationBar } from './components/NavigationBar';
 
 const routing = (
   <Router>
